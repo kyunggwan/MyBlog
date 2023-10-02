@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "BoardBackApplication",
+            "request": "launch",
+            "mainClass": "com.pkk.boardback.BoardBackApplication",
+            "projectName": "board-back"
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
