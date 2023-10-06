@@ -2,13 +2,13 @@ import React from "react";
 import "./styles.css";
 import { BoardListItem } from "types/interface";
 import { useNavigate } from "react-router-dom";
-import DefaultProfileImage from 'assets/image/default-profile-image.png';
+import DefaultProfileImage from "assets/image/default-profile-image.png";
 
 interface Props {
   boardListItem: BoardListItem;
 }
 
-export default function BoardListItem({ boardListItem }: Props) {
+export default function BoardItem({ boardListItem }: Props) {
   //        properties       //
   const {
     boardNumber,
@@ -24,11 +24,11 @@ export default function BoardListItem({ boardListItem }: Props) {
   } = boardListItem;
 
   //        function: 네비게이트 함수       //
-  const navigator = useNavigate();
+  // const navigator = useNavigate();
 
   //        event handler: 게시물 아이템 클릭 이벤트 처리 함수        //
   const onClickHandler = () => {
-    navigator(boardNumber);
+    // navigator(boardNumber);
   };
 
   //        render: BoardListItem 컴포넌트 렌더링         //
@@ -41,7 +41,9 @@ export default function BoardListItem({ boardListItem }: Props) {
             <div
               className="board-list-item-profile-image"
               style={{
-                backgroundImage: `url(${writerProfileImage ? writerProfileImage : DefaultProfileImage })`,
+                backgroundImage: `url(${
+                  writerProfileImage ? writerProfileImage : DefaultProfileImage
+                })`,
               }}
             ></div>
           </div>
