@@ -9,7 +9,7 @@ interface Props {
 }
 //              component: Top3 List Item 컴포넌트              //
 export default function Top3Item({ top3ListItem }: Props) {
-  //              propertyies             //
+  //              state: propertyies             //
   const {
     boardNumber,
     title,
@@ -44,9 +44,8 @@ export default function Top3Item({ top3ListItem }: Props) {
             <div
               className="top-3-list-item-profile-image"
               style={{
-                backgroundImage: `url(${
-                  writerProfileImage ? writerProfileImage : defaultProfileImage
-                })`,
+                backgroundImage: `url(${writerProfileImage ? writerProfileImage : defaultProfileImage
+                  })`,
               }}
             ></div>
           </div>

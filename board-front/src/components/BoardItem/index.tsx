@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function BoardItem({ boardListItem }: Props) {
-  //        properties       //
+  //        state: properties       //
   const {
     boardNumber,
     title,
@@ -41,9 +41,8 @@ export default function BoardItem({ boardListItem }: Props) {
             <div
               className="board-list-item-profile-image"
               style={{
-                backgroundImage: `url(${
-                  writerProfileImage ? writerProfileImage : DefaultProfileImage
-                })`,
+                backgroundImage: `url(${writerProfileImage ? writerProfileImage : DefaultProfileImage
+                  })`,
               }}
             ></div>
           </div>
