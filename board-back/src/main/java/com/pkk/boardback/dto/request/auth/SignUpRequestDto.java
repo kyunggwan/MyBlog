@@ -15,18 +15,26 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class SignUpRequestDto {
-    
-    @NotBlank @Email
+
+    @NotBlank
+    @Email
     private String email;
-    @NotBlank @Size(min=8, max = 20)
+    @NotBlank
+    @Size(min = 8, max = 20)
     private String password;
-    @NotBlank 
+    @NotBlank
     private String nickname;
-    @NotBlank @Pattern(regexp="^[0-9]{11,13}$") 
+    @NotBlank
+    @Pattern(regexp = "^[0-9]{11,13}$")
     private String telNumber;
     @NotBlank
     private String address;
     private String addressDetail;
-    @NotNull @AssertTrue // true만 받음  
+    @NotNull
+    @AssertTrue
     private boolean agreedPersonal;
+
+    public boolean getAgreedPersonal() {
+        return agreedPersonal;
+    }
 }
