@@ -14,7 +14,7 @@
     background-size: auto;
 }
 
-.auth-container{
+.auth-container {
     width: 1200px;
     height: 100%;
 
@@ -23,7 +23,7 @@
     column-gap: 78px;
 }
 
-.auth-jumbotron-box{
+.auth-jumbotron-box {
     grid-column: 1 / 2;
     height: 100%;
 
@@ -34,7 +34,7 @@
     align-content: center;
 }
 
-.auth-jumbotron-content{
+.auth-jumbotron-content {
     display: flex;
     /* 주축 변경 */
     flex-direction: column;
@@ -42,23 +42,23 @@
     gap: 20px;
 }
 
-.auth-logo-icon{
+.auth-logo-icon {
     width: 50px;
     height: 50px;
-    
+
     background-image: url(assets/auth-logo.png);
     background-position: 50% 50%;
-    background-size: 100% 100% ;
+    background-size: 100% 100%;
 }
 
-.auth-jumbotron-box{
+.auth-jumbotron-box {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
 }
 
-.auth-jumbotron-text{
+.auth-jumbotron-text {
     color: rgba(255, 255, 255, 1);
 
     font-family: 'GimhaeGaya';
