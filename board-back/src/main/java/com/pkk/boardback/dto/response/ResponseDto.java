@@ -18,7 +18,14 @@ public class ResponseDto {
 
     public static ResponseEntity<ResponseDto> databaseError() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.DATABASE_ERROR, ResponseMessage.DATABASE_ERROR);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody); // INTERNAL_SERVER_ERROR 는 500에러, 내용은 responseBody
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody); // INTERNAL_SERVER_ERROR 는
+                                                                                           // 500에러, 내용은 responseBody
+    }
+
+    public static ResponseEntity<ResponseDto> validationFailed() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.VALIDATION_FAILED, ResponseMessage.VALIDATION_FAILED);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody); 
+                                                                                           
     }
 
 }
