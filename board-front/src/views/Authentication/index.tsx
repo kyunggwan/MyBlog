@@ -228,7 +228,7 @@ export default function Authentication() {
             const isCheckedPassword = password.trim().length >= 8;
             if (!isCheckedPassword) {
                 setPasswordError(true);
-                setPasswordCheck('비밀번호는 8자 이상 입력해주세요.');
+                setPasswordErrorMessage('비밀번호는 8자 이상 입력해주세요.');
             }
             const isEqualPassword = password === passwordCheck;
             if (!isEqualPassword) {
