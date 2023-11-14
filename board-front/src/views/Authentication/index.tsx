@@ -262,7 +262,7 @@ export default function Authentication() {
             <div className='auth-card'>
                 <div className='auth-card-box'>
                     <div className='auth-card-top'>
-                        <div className='auth-card-box-title'>
+                        <div className='auth-card-title-box'>
                             <div className='auth-card-title'>{'회원가입'} </div>
                             <div className='auth-card-page'>{`${page}/2`}</div>
                         </div>
