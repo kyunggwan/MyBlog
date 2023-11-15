@@ -171,6 +171,8 @@ export default function Authentication() {
         const [address, setAddress] = useState<string>('');
         //              state: 상세 주소 상태              //
         const [addressDetail, setAddressDetail] = useState<string>('');
+        //              state: 개인 정보 동의 상태              //
+        const [agreedPersonal, setAgreedPersonal] = useState<boolean>(false);
 
         //              state: 패스워드 타입 상태              //
         const [passwordType, setPasswordType] = useState<'text' | 'password'>('password');
