@@ -127,8 +127,8 @@ export default function Header() {
         //              render: 로그인 아웃버튼 컴포넌트 렌더링                //
         if (isLogin && userEmail === loginUser?.email)
             return (
-                <div className='black-button' onClick={onSignInButtonClickHandler}>
-                    {'로그인'}
+                <div className='black-button' onClick={onSignOutButtonClickHandler}>
+                    {'로그아웃'}
                 </div>
             );
         //              render: 마이페이지 버튼 컴포넌트 렌더링                //
