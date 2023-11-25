@@ -40,16 +40,24 @@ export default function BoardWrite() {
                     </div>
                     <div className='board-write-images-box'>
                         <div className='board-write-image-box'>
-                            <img className='board-write-image' />
+                            <img className='board-write-image' src='' />
                             <div className='icon-button image-close'>
                                 <div className='icon close-icon'></div>
                             </div>
                         </div>
 
-                    </div>
-                </div>
+                        <div className='board-write-images-box'>
+                            <div className='board-write-image-box'>
+                                <img className='board-write-image' src='' />
+                                <div className='icon-button image-close'>
+                                    <div className='icon close-icon'></div>
+                                </div>
+                            </div>
 
+                        </div>
+                    </div>
+
+                </div>
             </div>
-        </div>
-    )
+            )
 }
