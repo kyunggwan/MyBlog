@@ -40,24 +40,25 @@ export default function BoardWrite() {
                     </div>
                     <div className='board-write-images-box'>
                         <div className='board-write-image-box'>
-                            <img className='board-write-image' src='' />
+                            <img className='board-write-image' src='https://search.pstatic.net/sunny/?src=https%3A%2F%2Fcdn.crowdpic.net%2Fdetail-thumb%2Fthumb_d_23F8B01DC9DCBE56216EED03018D4C7D.jpg&type=sc960_832' />
                             <div className='icon-button image-close'>
                                 <div className='icon close-icon'></div>
                             </div>
                         </div>
 
-                        <div className='board-write-images-box'>
-                            <div className='board-write-image-box'>
-                                <img className='board-write-image' src='' />
-                                <div className='icon-button image-close'>
-                                    <div className='icon close-icon'></div>
-                                </div>
-                            </div>
-
-                        </div>
                     </div>
+                    <div className='board-write-images-box'>
+                        <div className='board-write-image-box'>
+                            <img className='board-write-image' src='https://search.pstatic.net/sunny/?src=https%3A%2F%2Fcdn.crowdpic.net%2Fdetail-thumb%2Fthumb_d_FBF1146EF4F1BEF77E19827EDE16CC42.jpeg&type=sc960_832' />
+                            <div className='icon-button image-close'>
+                                <div className='icon close-icon'></div>
+                            </div>
+                        </div>
 
+                    </div>
                 </div>
+
             </div>
-            )
+        </div>
+    )
 }
