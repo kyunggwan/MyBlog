@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import './styles.css';
 import { useBoardStore } from 'stores';
 
@@ -16,6 +16,11 @@ export default function BoardWrite() {
 
     //              state: 게시물 이미지 미리보기 URL 상태              //
     const [imageUrls, setImageUrls] = useState<string[]>([]);
+
+    //              event handler: 제목 변경 이벤트 처리                //
+    const onTitleChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+    }
 
     //              effect: 마운트 시 실행할 함수               //
     useEffect(() => {
