@@ -22,7 +22,7 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<? super PostBoardResponseDto> postBoard(
             @RequestBody @Valid PostBoardRequestDto requestBody, @AuthenticationPrincipal String email) {
         ResponseEntity<? super PostBoardResponseDto> response = boardService.postBoard(requestBody, email);
