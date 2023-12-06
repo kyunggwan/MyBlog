@@ -10,6 +10,7 @@ import com.pkk.boardback.repository.resultSet.GetBoardResultSet;
 @Repository
 public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
 
+    boolean existsByBoardNumber(Integer BoardNumber);
     BoardEntity findByBoardNumber(Integer boardNumber);
 
     // 일반적인 쿼리메소드를 쓸 수 없음
