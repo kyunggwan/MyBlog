@@ -7,15 +7,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.pkk.boardback.dto.request.board.PostBoardRequestDto;
+import com.pkk.boardback.dto.request.board.PostCommentRequestDto;
 import com.pkk.boardback.dto.response.ResponseDto;
 import com.pkk.boardback.dto.response.board.GetBoardResponseDto;
 import com.pkk.boardback.dto.response.board.GetFavoriteListResponseDto;
 import com.pkk.boardback.dto.response.board.PostBoardResponseDto;
+import com.pkk.boardback.dto.response.board.PostCommentResponseDto;
 import com.pkk.boardback.dto.response.board.PutFavoriteResponseDto;
 import com.pkk.boardback.entity.BoardEntity;
+import com.pkk.boardback.entity.CommentEntity;
 import com.pkk.boardback.entity.FavoriteEntity;
 import com.pkk.boardback.entity.ImageEntity;
 import com.pkk.boardback.repository.BoardRepository;
+import com.pkk.boardback.repository.CommentRepository;
 import com.pkk.boardback.repository.FavoriteRepository;
 import com.pkk.boardback.repository.ImageRepository;
 import com.pkk.boardback.repository.UserRepository;
@@ -32,12 +36,14 @@ public class BoardServiceImplements implements BoardService {
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
     private final ImageRepository imageRepository;
+    private final CommentRepository commentRepository;
     private final FavoriteRepository favoriteRepository;
 
     @Override
     public ResponseEntity<? super GetFavoriteListResponseDto> getFavoriteList(Integer boardNumber) {
 
         List<GetFavoriteListResultSet> resultSets = new ArrayList<>();
+        System.out.println("*********************getFavoriteList service Impl***************");
 
         try {
 
@@ -49,6 +55,7 @@ public class BoardServiceImplements implements BoardService {
 
         } catch (Exception exception) {
             exception.printStackTrace();
+            System.out.println("******getFavoriteList service error******");
             return ResponseDto.databaseError();
         }
         return GetFavoriteListResponseDto.success(resultSets);
@@ -85,10 +92,37 @@ public class BoardServiceImplements implements BoardService {
     }
 
     @Override
+    public ResponseEntity<? super PostCommentResponseDto> postComment(PostCommentRequestDto dto, Integer boardNumber,
+            String email) {
+
+        try {
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if (boardEntity == null)
+                return PostCommentResponseDto.noExistBoard();
+
+            boolean existedUser = userRepository.existsByEmail(email);
+            if (!existedUser)
+                return PostCommentResponseDto.noExistUser();
+
+            CommentEntity commentEntity = new CommentEntity(dto, boardNumber, email);
+            commentRepository.save(commentEntity);
+
+            boardEntity.increaseCommentCount();
+            boardRepository.save(boardEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return PostCommentResponseDto.success();
+    }
+
+    @Override
     public ResponseEntity<? super GetBoardResponseDto> getBoard(Integer boardNumber) {
 
         GetBoardResultSet resultSet = null;
         List<ImageEntity> imageEntities = new ArrayList<>();
+        System.out.println("************getBoard service********");
 
         try {
 
@@ -103,6 +137,7 @@ public class BoardServiceImplements implements BoardService {
             boardRepository.save(boardEntity);
 
         } catch (Exception exception) {
+            System.out.println("*******************error***********");
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
