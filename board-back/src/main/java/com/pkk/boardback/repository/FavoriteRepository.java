@@ -20,7 +20,7 @@ public interface FavoriteRepository extends JpaRepository<FavoriteEntity, Favori
         "SELECT " +
         "       u.email AS email, " +
         "       u.nickname AS nickname, " +
-        "       u.profile_image AS profileImage " +
+        "       u.profile_image AS profile_image " +
         "FROM favorite AS f " +
         "INNER JOIN user AS u " +
         "ON f.user_email = u.email" +
