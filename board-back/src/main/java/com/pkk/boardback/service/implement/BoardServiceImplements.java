@@ -14,6 +14,7 @@ import com.pkk.boardback.dto.response.board.GetFavoriteListResponseDto;
 import com.pkk.boardback.dto.response.board.PostBoardResponseDto;
 import com.pkk.boardback.dto.response.board.PostCommentResponseDto;
 import com.pkk.boardback.dto.response.board.PutFavoriteResponseDto;
+import com.pkk.boardback.dto.response.board.GetCommentListResponseDto;
 import com.pkk.boardback.entity.BoardEntity;
 import com.pkk.boardback.entity.CommentEntity;
 import com.pkk.boardback.entity.FavoriteEntity;
@@ -24,6 +25,7 @@ import com.pkk.boardback.repository.FavoriteRepository;
 import com.pkk.boardback.repository.ImageRepository;
 import com.pkk.boardback.repository.UserRepository;
 import com.pkk.boardback.repository.resultSet.GetBoardResultSet;
+import com.pkk.boardback.repository.resultSet.GetCommentListResultSet;
 import com.pkk.boardback.repository.resultSet.GetFavoriteListResultSet;
 import com.pkk.boardback.service.BoardService;
 
@@ -59,6 +61,20 @@ public class BoardServiceImplements implements BoardService {
             return ResponseDto.databaseError();
         }
         return GetFavoriteListResponseDto.success(resultSets);
+    }
+
+    @Override
+    public ResponseEntity<? super GetCommentListResponseDto> getCommentList(Integer boardNumber) {
+
+        List<GetCommentListResultSet> resultSets = new ArrayList<>();
+        try {
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetCommentListResponseDto.success(resultSets);
     }
 
     @Override
