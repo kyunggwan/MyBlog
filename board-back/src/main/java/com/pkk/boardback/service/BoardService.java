@@ -9,6 +9,7 @@ import com.pkk.boardback.dto.response.board.PostBoardResponseDto;
 import com.pkk.boardback.dto.response.board.PutFavoriteResponseDto;
 import com.pkk.boardback.dto.response.board.GetFavoriteListResponseDto;
 import com.pkk.boardback.dto.response.board.PostCommentResponseDto;
+import com.pkk.boardback.dto.response.board.GetCommentListResponseDto;
 
 public interface BoardService {
     ResponseEntity<? super GetBoardResponseDto> getBoard(Integer boardNumber);

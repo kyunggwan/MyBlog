@@ -69,6 +69,12 @@ public class BoardServiceImplements implements BoardService {
         List<GetCommentListResultSet> resultSets = new ArrayList<>();
         try {
 
+            boolean existedBoard = boardRepository.existsByBoardNumber(boardNumber);
+            if (!existedBoard)
+                return GetCommentListResponseDto.noExistBoard();
+
+                resultSets = commentRepository.getCommentList(boardNumber);
+
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
