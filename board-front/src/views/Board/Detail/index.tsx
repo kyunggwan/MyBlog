@@ -38,7 +38,19 @@ export default function BoardDetail() {
 
     //              component: 게시물 상세 하단 컴포넌트               //
     const BoardDetailBottom = () => {
-        return (<></>)
+        return (
+        <div className='board-detail-bottom'>
+            <div className='board-detail-bottom-button-box'>
+                <div className='board-detail-bottom-button-group'>
+                    <div className='icon-button'>
+                        <div className='icon favorite-fill-icon'></div>
+                    </div>
+                </div>
+            </div>
+            <div className='board-detail-bottom-favoeite-box'></div>
+            <div className='board-detail-bottom-comment-box'></div>
+        </div>
+        );
     }
 
     //              render: 게시물 상세 화면 컴포넌트 렌더링               //
