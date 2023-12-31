@@ -23,25 +23,26 @@ export default function BoardDetail() {
         <div className="board-detail-top-header">
           <div className="board-detail-title">{"title"}</div>
           <div className="board-detail-top-sub-box">
-            <div className="board-detil-write-info-box"></div>
-            <div
-              className="board-detail-writer-profile-image"
-              style={{ backgroundImage: `url(${defaultProfileImage})` }}
-            ></div>
-            <div className="board-detail-writer-nickname">{"nickname"}</div>
-            <div className="board-detail-writer-info-divider">{"/"}</div>
-            <div className="board-detail-write-date">{"날짜"}</div>
-          </div>
-          <div className="icon-button" onClick={onMoreButtonClickHandler}>
-            <div className="icon more-icon"></div>
-          </div>
-          {showMore && (
-            <div className="board-detail-more-box">
-              <div className="board-detail-update-button">{"수정"}</div>
-              <div className="divider">{"/"}</div>
-              <div className="board-detail-delete-button">{"삭제"}</div>
+            <div className="board-detail-write-info-box">
+              <div
+                className="board-detail-writer-profile-image"
+                style={{ backgroundImage: `url(${defaultProfileImage})` }}
+              ></div>
+              <div className="board-detail-writer-nickname">{'nickname'}</div>
+              <div className="board-detail-writer-info-divider">{'\|'}</div>
+              <div className="board-detail-write-date">{'2023. 12. 31.'}</div>
             </div>
-          )}
+            <div className="icon-button" onClick={onMoreButtonClickHandler}>
+              <div className="icon more-icon"></div>
+            </div>
+            {showMore && (
+              <div className="board-detail-more-box">
+                <div className="board-detail-update-button">{"수정"}</div>
+                <div className="divider"></div>
+                <div className="board-detail-delete-button">{"삭제"}</div>
+              </div>
+            )}
+          </div>
         </div>
         <div className="divider"></div>
         <div className="board-detail-top-main">
@@ -126,7 +127,7 @@ export default function BoardDetail() {
   //              render: 게시물 상세 화면 컴포넌트 렌더링               //
   return (
     <div id="board-detail-wrapper">
-      <div className="bord-detail-container">
+      <div className="board-detail-container ">
         <BoardDetailTop />
         <BoardDetailBottom />
       </div>
