@@ -3,8 +3,10 @@ import "./styles.css";
 import defaultProfileImage from "assets/image/default-profile-image.png";
 import FavoriteItem from "components/FavoriteItem";
 import { CommentListItem, FavoriteListItem } from "types/interface";
-import favoriteListMock from "../../../mocks/index";
 import Pagination from "components/Pagination";
+import favoriteListMock from "mocks/favorite-list.mock";
+import commentListMock from "mocks/comment-list.mock";
+import CommentItem from "components/CommentItem";
 
 //              component: 게시물 상세 화면 컴포넌트               //
 export default function BoardDetail() {
@@ -61,13 +63,13 @@ export default function BoardDetail() {
     const [commentList, setCommentList] = useState<CommentListItem[]>([]);
 
     useEffect(() => {
-    //   setFavoriteList(favoriteListMock);
-    // setCommentList(CommentListMock);
+      setFavoriteList(favoriteListMock);
+      setCommentList(commentListMock);
     }, []);
 
     //              render: 게시물 상세 하단 컴포넌트 렌더링                //
     return (
-      <div className="board-detail-bottom">
+      <div id='board-detail-bottom'>
         <div className="board-detail-bottom-button-box">
           <div className="board-detail-bottom-button-group">
             <div className="icon-button">
@@ -104,7 +106,7 @@ export default function BoardDetail() {
           <div className="board-detail-bottom-comment-container">
             <div className="board-detail-bottom-comment-title">{'댓글 '} <span className="emphasis">{12}</span></div>
             <div className="board-detail-bottom-comment-list-container">
-                {/* {commentList.map(item => <CommentItem commentListItem={item} />)} */}
+              {commentList.map(item => <CommentItem commentListItem={item} />)}
             </div>
           </div>
           <div className="divider"></div>
@@ -113,10 +115,10 @@ export default function BoardDetail() {
           </div>
           <div className="board-detail-bottom-comment-input-container">
             <div className="board-detail-bottom-comment-input-container">
-                <textarea className="board-detail-bottom-comment-textarea" placeholder="댓글을 작성해주세요."/>
-                <div className="board-detail-bottom-comment-button-box">
-                  <div className="disable-button">{'댓글달기'}</div>
-                </div>
+              <textarea className="board-detail-bottom-comment-textarea" placeholder="댓글을 작성해주세요." />
+              <div className="board-detail-bottom-comment-button-box">
+                <div className="disable-button">{'댓글달기'}</div>
+              </div>
             </div>
           </div>
         </div>
