@@ -11,6 +11,7 @@ import com.pkk.boardback.dto.request.board.PostCommentRequestDto;
 import com.pkk.boardback.dto.response.ResponseDto;
 import com.pkk.boardback.dto.response.board.GetBoardResponseDto;
 import com.pkk.boardback.dto.response.board.GetFavoriteListResponseDto;
+import com.pkk.boardback.dto.response.board.IncreaseViewCountResponseDto;
 import com.pkk.boardback.dto.response.board.PostBoardResponseDto;
 import com.pkk.boardback.dto.response.board.PostCommentResponseDto;
 import com.pkk.boardback.dto.response.board.PutFavoriteResponseDto;
@@ -73,7 +74,7 @@ public class BoardServiceImplements implements BoardService {
             if (!existedBoard)
                 return GetCommentListResponseDto.noExistBoard();
 
-                resultSets = commentRepository.getCommentList(boardNumber);
+            resultSets = commentRepository.getCommentList(boardNumber);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -154,10 +155,6 @@ public class BoardServiceImplements implements BoardService {
 
             imageEntities = imageRepository.findByBoardNumber(boardNumber);
 
-            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
-            boardEntity.increaseViewCount();
-            boardRepository.save(boardEntity);
-
         } catch (Exception exception) {
             System.out.println("*******************error***********");
             exception.printStackTrace();
@@ -199,6 +196,21 @@ public class BoardServiceImplements implements BoardService {
         }
 
         return PutFavoriteResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super IncreaseViewCountResponseDto> increaseViewCount(Integer boardNumber) {
+        try {
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if (boardEntity == null)
+                return IncreaseViewCountResponseDto.notExistBoard();
+            boardEntity.increaseViewCount();
+            boardRepository.save(boardEntity);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return IncreaseViewCountResponseDto.success();
     }
 
 }
