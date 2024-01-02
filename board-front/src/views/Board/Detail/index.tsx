@@ -17,43 +17,77 @@ import { useLoginUserStore } from "stores";
 import { useNavigate, useParams } from "react-router-dom";
 import { BOARD_PATH, BOARD_UPDATE_PATH, MAIN_PATH, USER_PATH } from "constant";
 import boardMock from "mocks/board.mock";
+import { getBoardRequest, increaseViewCountRequest } from "apis";
+import GetBoardResponseDto from "apis/response/board/get-board.response.dto";
+import { ResponseDto } from "apis/response";
+import { IncreaseViewCountResponseDto } from "apis/response/board";
 
-//              component: 게시물 상세 화면 컴포넌트               //
+//        component: 게시물 상세 화면 컴포넌트        //
 export default function BoardDetail() {
-  //        state: 게시물 번호 path variable 상태         //
+  //        state: 게시물 번호 path variable 상태       //
   const { boardNumber } = useParams();
-  //        state: 로그인 유저 상태         //
+  //        state: 로그인 유저 상태       //
   const { loginUser } = useLoginUserStore();
 
-  //          function: navigate 함수         //
+  //        function: navigate 함수       //
   const navigator = useNavigate();
+  //        function: increase view count response 처리 함수        //
+  const increaseViewCountResponse = (responseBody: IncreaseViewCountResponseDto | ResponseDto | null) => {
+    if (!responseBody) return;
+    const { code } = responseBody;
+    if (code === 'NB') alert('존재하지 않는 게시물입니다.');
+    if (code === 'DBE') alert('데이터베이스 오류입니다.');
+  }
 
-  //              component: 게시물 상세 상단 컴포넌트               //
+  //        component: 게시물 상세 상단 컴포넌트        //
   const BoardDetailTop = () => {
-    //              state: board 상태               //
+
+    //        state: 작성자 여부 상태       //
+    const [isWriter, setWriter] = useState<boolean>(false);
+    //        state: board 상태        //
     const [board, setBoard] = useState<Board | null>(null);
-    //              state: more 버튼 상태               //
+    //        state: more 버튼 상태       //
     const [showMore, setShowMore] = useState<boolean>(false);
 
-    //              event handler: 닉네임 클릭 이벤트 처리               //
+    //        function: get board response 처리 함수        //
+    const getBoardResponse = (responseBody: GetBoardResponseDto | ResponseDto | null) => {
+      if (!responseBody) return;
+      const { code } = responseBody;
+      if (code === 'NB') alert('존재하지 않는 게시물입니다.');
+      if (code === 'DBE') alert('데이터베이스 오류입니다.');
+      if (code !== 'SU') {
+        navigator(MAIN_PATH());
+        return;
+      }
+      const board: Board = { ...responseBody as GetBoardResponseDto };
+      setBoard(board);
+
+      if (!loginUser) {
+        setWriter(false);
+        return;
+      }
+      const isWriter = loginUser.email === board.writerEmail;
+      setWriter(isWriter);
+    }
+    //        event handler: 닉네임 클릭 이벤트 처리        //
     const onNicknameClickHandler = () => {
       if (!board) return;
       navigator(USER_PATH(board.writerEmail));
     };
 
-    //              event handler: more 버튼 클릭 이벤트 처리               //
+    //        event handler: more 버튼 클릭 이벤트 처리          //
     const onMoreButtonClickHandler = () => {
       setShowMore(!showMore);
     };
 
-    //              event handler: 수정 버튼 클릭 이벤트 처리               //
+    //        event handler: 수정 버튼 클릭 이벤트 처리       //
     const onUpdateButtonClickHandler = () => {
       if (!board || !loginUser) return;
       if (loginUser.email !== board.writerEmail) return;
       navigator(BOARD_PATH() + "/" + BOARD_UPDATE_PATH(board.boardNumber));
     };
 
-    //              event handler: 삭제 버튼 클릭 이벤트 처리               //
+    //        event handler: 삭제 버튼 클릭 이벤트 처리        //
     const onDeleteButtonClickHandler = () => {
       if (!board || !loginUser) return;
       if (loginUser.email !== board.writerEmail) return;
@@ -61,12 +95,16 @@ export default function BoardDetail() {
       navigator(MAIN_PATH());
     };
 
-    //          effect: 게시물 번호 path variable 바뀔 때 마다 게시물 불러오기           //
+    //          effect: 게시물 번호 path variable 바뀔 때 마다 게시물 불러오기          //
     useEffect(() => {
-      setBoard(boardMock);
+      if (!boardNumber) {
+        navigator(MAIN_PATH());
+        return;
+      }
+      getBoardRequest(boardNumber).then(getBoardResponse);
     }, [boardNumber]);
 
-    //              render: 게시물 상세 상단 컴포넌트 렌더링               //
+    //        render: 게시물 상세 상단 컴포넌트 렌더링        //
     if (!board) return <></>;
     return (
       <div id="board-detail-top">
@@ -77,11 +115,10 @@ export default function BoardDetail() {
               <div
                 className="board-detail-writer-profile-image"
                 style={{
-                  backgroundImage: `url(${
-                    board.writerProfileImage
-                      ? board.writerProfileImage
-                      : defaultProfileImage
-                  })`,
+                  backgroundImage: `url(${board.writerProfileImage
+                    ? board.writerProfileImage
+                    : defaultProfileImage
+                    })`,
                 }}
               ></div>
               <div
@@ -95,9 +132,11 @@ export default function BoardDetail() {
                 {board.writeDatetime}
               </div>
             </div>
-            <div className="icon-button" onClick={onMoreButtonClickHandler}>
-              <div className="icon more-icon"></div>
-            </div>
+            {isWriter &&
+              <div className="icon-button" onClick={onMoreButtonClickHandler}>
+                <div className="icon more-icon"></div>
+              </div>
+            }
             {showMore && (
               <div className="board-detail-more-box">
                 <div
@@ -128,45 +167,45 @@ export default function BoardDetail() {
     );
   };
 
-  //              component: 게시물 상세 하단 컴포넌트               //
+  //        component: 게시물 상세 하단 컴포넌트        //
   const BoardDetailBottom = () => {
-    //            state: 댓글 textarea 참조 상태           //
+    //        state: 댓글 textarea 참조 상태        //
     const commentRef = useRef<HTMLTextAreaElement | null>(null);
-    //            state: 좋아요 리스트 상태           //
+    //        state: 좋아요 리스트 상태       //
     const [favoriteList, setFavoriteList] = useState<FavoriteListItem[]>([]);
-    //            state: 댓글 리스트 상태             //
+    //        state: 댓글 리스트 상태       //
     const [commentList, setCommentList] = useState<CommentListItem[]>([]);
-    //            state: 좋아요 상태           //
+    //        state: 좋아요 상태        //
     const [isFavorite, setFavorite] = useState<boolean>(false);
-    //            state: 좋아요 상자 보기 상태           //
+    //        state: 좋아요 상자 보기 상태        //
     const [showFavorite, setShowFavorite] = useState<boolean>(false);
-    //            state: 댓글 상자 보기 상태           //
+    //        state: 댓글 상자 보기 상태        //
     const [showComment, setShowComment] = useState<boolean>(false);
-    //            state: 댓글 상태           //
+    //        state: 댓글 상태        //
     const [comment, setComment] = useState<string>("");
 
-    //              event handler: 좋아요 클릭 이벤트 처리                //
+    //        event handler: 좋아요 클릭 이벤트 처리        //
     const onFavoriteClickHandler = () => {
       setFavorite(!isFavorite);
     };
 
-    //              event handler: 좋아요 상자 보기 클릭 이벤트 처리                //
+    //        event handler: 좋아요 상자 보기 클릭 이벤트 처리        //
     const onShowFavoriteClickHandler = () => {
       setShowFavorite(!showFavorite);
     };
 
-    //              event handler: 댓글 상자 보기 클릭 이벤트 처리                //
+    //        event handler: 댓글 상자 보기 클릭 이벤트 처리        //
     const onShowCommentClickHandler = () => {
       setShowComment(!showComment);
     };
 
-    //              event handler: 댓글 작성 버튼 클릭 이벤트 처리                //
+    //        event handler: 댓글 작성 버튼 클릭 이벤트 처리        //
     const onCommentSubmitButtonClickHandler = () => {
       if (!comment) return;
       // TODO: 버튼 클릭 누를 때 처리
     };
 
-    //              event handler: 댓글 변경 이벤트 처리                //
+    //        event handler: 댓글 변경 이벤트 처리        //
     const onCommentChangeHandler = (
       event: ChangeEvent<HTMLTextAreaElement>
     ) => {
@@ -176,13 +215,13 @@ export default function BoardDetail() {
       commentRef.current.style.height = "auto";
       commentRef.current.style.height = `${commentRef.current.scrollHeight}px`;
     };
-    //            effect: 게시물 path variable이 바뀔때 마다 좋아요 및 댓글 리스트 불러오기             //
+    //        effect: 게시물 path variable이 바뀔때 마다 좋아요 및 댓글 리스트 불러오기        //
     useEffect(() => {
       setFavoriteList(favoriteListMock);
       setCommentList(commentListMock);
     }, [boardNumber]);
 
-    //              render: 게시물 상세 하단 컴포넌트 렌더링                //
+    //        render: 게시물 상세 하단 컴포넌트 렌더링        //
     return (
       <div id="board-detail-bottom">
         <div className="board-detail-bottom-button-box">
@@ -275,7 +314,19 @@ export default function BoardDetail() {
     );
   };
 
-  //              render: 게시물 상세 화면 컴포넌트 렌더링               //
+  //        effect: 게시물 번호 path variable이 바뀔때 마다 게시물 조회 수 증가       //
+  let effectFlag = true;
+  useEffect(() => {
+    if (!boardNumber) return;
+    if (effectFlag) {
+      effectFlag = false;
+      return;
+    }
+
+    increaseViewCountRequest(boardNumber).then(increaseViewCountResponse);
+  }, [boardNumber])
+
+  //        render: 게시물 상세 화면 컴포넌트 렌더링        //
   return (
     <div id="board-detail-wrapper">
       <div className="board-detail-container ">
