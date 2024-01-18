@@ -1,16 +1,9 @@
-import React, {
-  ChangeEvent,
-  EventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import "./styles.css";
 import defaultProfileImage from "assets/image/default-profile-image.png";
 import FavoriteItem from "components/FavoriteItem";
 import { Board, CommentListItem, FavoriteListItem } from "types/interface";
 import Pagination from "components/Pagination";
-import favoriteListMock from "mocks/favorite-list.mock";
 import commentListMock from "mocks/comment-list.mock";
 import CommentItem from "components/CommentItem";
 import { useLoginUserStore } from "stores";
@@ -226,8 +219,8 @@ export default function BoardDetail() {
         favoriteList.findIndex(
           (favorite) => favorite.email === loginUser.email
         ) !== -1;
+        setFavorite(isFavorite);
     };
-    setFavorite(isFavorite);
 
     //        event handler: 좋아요 클릭 이벤트 처리        //
     const onFavoriteClickHandler = () => {
@@ -260,7 +253,7 @@ export default function BoardDetail() {
       commentRef.current.style.height = "auto";
       commentRef.current.style.height = `${commentRef.current.scrollHeight}px`;
     };
-    //        effect: 게시물 path variable이 바뀔때 마다 좋아요 및 댓글 리스트 불러오기        //
+    //        effect: 게시물 번호 path variable이 바뀔때 마다 좋아요 및 댓글 리스트 불러오기        //
     useEffect(() => {
       if (!boardNumber) return;
       getFavoriteListRequest(boardNumber).then(getFavoriteListResponse);
