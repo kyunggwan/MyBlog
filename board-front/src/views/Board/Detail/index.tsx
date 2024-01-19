@@ -4,19 +4,20 @@ import defaultProfileImage from "assets/image/default-profile-image.png";
 import FavoriteItem from "components/FavoriteItem";
 import { Board, CommentListItem, FavoriteListItem } from "types/interface";
 import Pagination from "components/Pagination";
-import commentListMock from "mocks/comment-list.mock";
 import CommentItem from "components/CommentItem";
 import { useLoginUserStore } from "stores";
 import { useNavigate, useParams } from "react-router-dom";
 import { BOARD_PATH, BOARD_UPDATE_PATH, MAIN_PATH, USER_PATH } from "constant";
 import {
   getBoardRequest,
+  getCommentListRequest,
   getFavoriteListRequest,
   increaseViewCountRequest,
 } from "apis";
 import GetBoardResponseDto from "apis/response/board/get-board.response.dto";
 import { ResponseDto } from "apis/response";
 import {
+  GetCommentListResponseDto,
   GetFavoriteListResponseDto,
   IncreaseViewCountResponseDto,
 } from "apis/response/board";
@@ -219,7 +220,29 @@ export default function BoardDetail() {
         favoriteList.findIndex(
           (favorite) => favorite.email === loginUser.email
         ) !== -1;
-        setFavorite(isFavorite);
+      setFavorite(isFavorite);
+    };
+
+    //        function: get comment list response 처리 함수        //
+    const getCommentListResponse = (
+      responseBody: GetCommentListResponseDto | ResponseDto | null
+    ) => {
+      if (!responseBody) return;
+      const { code } = responseBody;
+
+      if (code === "NB") alert("존재하지 않는 게시물입니다.");
+      if (code === "DBE") alert("데이터베이스 오류입니다.");
+      if (code === "SU") return;
+
+      const { commentList } = responseBody as GetCommentListResponseDto;
+      setCommentList(commentList);
+
+      if (!loginUser) {
+        setFavorite(false);
+        return;
+      }
+
+
     };
 
     //        event handler: 좋아요 클릭 이벤트 처리        //
@@ -257,7 +280,7 @@ export default function BoardDetail() {
     useEffect(() => {
       if (!boardNumber) return;
       getFavoriteListRequest(boardNumber).then(getFavoriteListResponse);
-      setCommentList(commentListMock);
+      getCommentListRequest(boardNumber).then(getCommentListResponse);
     }, [boardNumber]);
 
     //        render: 게시물 상세 하단 컴포넌트 렌더링        //
