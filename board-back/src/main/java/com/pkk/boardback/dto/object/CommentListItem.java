@@ -18,13 +18,13 @@ public class CommentListItem {
 
     private String nickname;
     private String profileImage;
-    private String writeDateTime;
+    private String writeDatetime;
     private String content;
 
     public CommentListItem(GetCommentListResultSet resultSets) {
         this.nickname = resultSets.getNickname();
         this.profileImage = resultSets.getProfileimage();
-        this.writeDateTime = resultSets.getWriteDatetime();
+        this.writeDatetime = resultSets.getWriteDatetime();
         this.content = resultSets.getContent();
     }
 
