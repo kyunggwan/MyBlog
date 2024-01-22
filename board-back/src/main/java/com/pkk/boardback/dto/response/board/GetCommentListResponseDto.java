@@ -18,9 +18,9 @@ public class GetCommentListResponseDto extends ResponseDto {
 
     private List<CommentListItem> commentListItem;
 
-    private GetCommentListResponseDto(List<GetCommentListResultSet> resultSetss) {
+    private GetCommentListResponseDto(List<GetCommentListResultSet> resultSets) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-        this.commentListItem = CommentListItem.copyList(resultSetss);
+        this.commentListItem = CommentListItem.copyList(resultSets);
     }
 
     public static ResponseEntity<GetCommentListResponseDto> success(List<GetCommentListResultSet> resultSets) {

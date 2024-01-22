@@ -23,7 +23,7 @@ public class BoardListViewEntity {
     private String titleImage;
     private int viewCount;
     private int favoriteCount;
-    private String writeDatetime;
+    private String writeDateTime;
     private String writerEmail;
     private String writerNickname;
     private String writerProfileImage;
