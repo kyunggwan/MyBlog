@@ -13,6 +13,7 @@ import {
   getCommentListRequest,
   getFavoriteListRequest,
   increaseViewCountRequest,
+  postCommentRequest,
   putFavoriteRequest,
 } from "apis";
 import GetBoardResponseDto from "apis/response/board/get-board.response.dto";
@@ -21,11 +22,13 @@ import {
   GetCommentListResponseDto,
   GetFavoriteListResponseDto,
   IncreaseViewCountResponseDto,
+  PostCommentResponseDto,
   PutFavoriteResponseDto,
 } from "apis/response/board";
 
 import dayjs from "dayjs";
 import { useCookies } from "react-cookie";
+import { PostCommentRequestDto } from "apis/requeset/board";
 
 //        component: 게시물 상세 화면 컴포넌트        //
 export default function BoardDetail() {
@@ -242,7 +245,7 @@ export default function BoardDetail() {
 
       if (code === "NB") alert("존재하지 않는 게시물입니다.");
       if (code === "DBE") alert("데이터베이스 오류입니다.");
-      if (code === "SU") return;
+      if (code !== "SU") return;
 
       const { commentList } = responseBody as GetCommentListResponseDto;
       setCommentList(commentList);
@@ -270,6 +273,23 @@ export default function BoardDetail() {
       getFavoriteListRequest(boardNumber).then(getFavoriteListResponse);
     };
 
+    //        function: post comment response 처리 함수        //
+    const postCommentResponse = (
+      responseBody: PostCommentResponseDto | ResponseDto | null
+    ) => {
+      if (!responseBody) return;
+      const { code } = responseBody;
+      if (code === "VF") alert("잘못된 접근입니다.");
+      if (code === "NU") alert("존재하지 않는 유저입니다.");
+      if (code === "NB") alert("존재하지 않는 게시물입니다.");
+      if (code === "AF") alert("인증에 실패했습니다.");
+      if (code === "DBE") alert("데이터베이스 오류입니다.");
+      if (code !== "SU") return;
+
+      if (!boardNumber) return;
+      getCommentListRequest(boardNumber).then(getCommentListResponse)
+    };
+
     //        event handler: 좋아요 클릭 이벤트 처리        //
     const onFavoriteClickHandler = () => {
       if (!loginUser || !cookies.accessToken || !boardNumber) return;
@@ -290,8 +310,13 @@ export default function BoardDetail() {
 
     //        event handler: 댓글 작성 버튼 클릭 이벤트 처리        //
     const onCommentSubmitButtonClickHandler = () => {
-      if (!comment) return;
-      // TODO: 버튼 클릭 누를 때 처리
+      if (!comment || !boardNumber || !loginUser || !cookies.accessToken)
+        return;
+
+      const requestBody: PostCommentRequestDto = { content: comment };
+      postCommentRequest(boardNumber, requestBody, cookies.accessToken).then(
+        postCommentResponse
+      );
     };
 
     //        event handler: 댓글 변경 이벤트 처리        //
@@ -350,7 +375,7 @@ export default function BoardDetail() {
           <div className="board-detail-bottom-favorite-box">
             <div className="board-detail-bottom-favorite-container">
               <div className="board-detail-bottom-favorite-title">
-                {"좋아요"}{" "}
+                {`좋아요 ${favoriteList.length}`}
                 <span className="emphasis">{favoriteList.length}</span>
               </div>
               <div className="board-detail-bottom-favorite-contents">
@@ -365,7 +390,8 @@ export default function BoardDetail() {
           <div className="board-detail-bottom-comment-box">
             <div className="board-detail-bottom-comment-container">
               <div className="board-detail-bottom-comment-title">
-                {"댓글 "} <span className="emphasis">{12}</span>
+                {`댓글 ${commentList.length}`}
+                {/* <span className="emphasis">{12}</span> */}
               </div>
               <div className="board-detail-bottom-comment-list-container">
                 {commentList.map((item) => (
