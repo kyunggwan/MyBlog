@@ -13,6 +13,7 @@ import {
   getCommentListRequest,
   getFavoriteListRequest,
   increaseViewCountRequest,
+  putFavoriteRequest,
 } from "apis";
 import GetBoardResponseDto from "apis/response/board/get-board.response.dto";
 import { ResponseDto } from "apis/response";
@@ -20,9 +21,11 @@ import {
   GetCommentListResponseDto,
   GetFavoriteListResponseDto,
   IncreaseViewCountResponseDto,
+  PutFavoriteResponseDto,
 } from "apis/response/board";
 
 import dayjs from "dayjs";
+import { useCookies } from "react-cookie";
 
 //        component: 게시물 상세 화면 컴포넌트        //
 export default function BoardDetail() {
@@ -30,6 +33,8 @@ export default function BoardDetail() {
   const { boardNumber } = useParams();
   //        state: 로그인 유저 상태       //
   const { loginUser } = useLoginUserStore();
+  //        state: 쿠키 상태        //
+  const [cookies, setCookies] = useCookies();
 
   //        function: navigate 함수       //
   const navigator = useNavigate();
@@ -172,8 +177,13 @@ export default function BoardDetail() {
         <div className="divider"></div>
         <div className="board-detail-top-main">
           <div className="board-detail-main-text">{board.content}</div>
-          {board.boardImageList.map((image) => (
-            <img className="board-detail-main-image" src={image} />
+          {board.boardImageList.map((image, index) => (
+            <img
+              key={index}
+              className="board-detail-main-image"
+              src={image}
+              alt={`main_image_${index}`}
+            />
           ))}
         </div>
       </div>
@@ -206,7 +216,7 @@ export default function BoardDetail() {
 
       if (code === "NB") alert("존재하지 않는 게시물입니다.");
       if (code === "DBE") alert("데이터베이스 오류입니다.");
-      if (code === "SU") return;
+      if (code !== "SU") return;
 
       const { favoriteList } = responseBody as GetFavoriteListResponseDto;
       setFavoriteList(favoriteList);
@@ -241,13 +251,31 @@ export default function BoardDetail() {
         setFavorite(false);
         return;
       }
+    };
 
+    //        function: put favorite response 처리 함수//
+    const putFavoriteResponse = (
+      responseBody: PutFavoriteResponseDto | ResponseDto | null
+    ) => {
+      if (!responseBody) return;
+      const { code } = responseBody;
+      if (code === "VF") alert("잘못된 접근입니다.");
+      if (code === "NU") alert("존재하지 않는 유저입니다.");
+      if (code === "NB") alert("존재하지 않는 게시물입니다.");
+      if (code === "AF") alert("인증에 실패했습니다.");
+      if (code === "DBE") alert("데이터베이스 오류입니다.");
+      if (code !== "SU") return;
 
+      if (!boardNumber) return;
+      getFavoriteListRequest(boardNumber).then(getFavoriteListResponse);
     };
 
     //        event handler: 좋아요 클릭 이벤트 처리        //
     const onFavoriteClickHandler = () => {
-      setFavorite(!isFavorite);
+      if (!loginUser || !cookies.accessToken || !boardNumber) return;
+      putFavoriteRequest(boardNumber, cookies.accessToken).then(
+        putFavoriteResponse
+      );
     };
 
     //        event handler: 좋아요 상자 보기 클릭 이벤트 처리        //
