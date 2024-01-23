@@ -46,8 +46,6 @@ public class BoardServiceImplements implements BoardService {
     public ResponseEntity<? super GetFavoriteListResponseDto> getFavoriteList(Integer boardNumber) {
 
         List<GetFavoriteListResultSet> resultSets = new ArrayList<>();
-        System.out.println("*********************getFavoriteList service Impl***************");
-
         try {
 
             boolean existedBoard = boardRepository.existsByBoardNumber(boardNumber);
@@ -58,7 +56,6 @@ public class BoardServiceImplements implements BoardService {
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            System.out.println("******getFavoriteList service error******");
             return ResponseDto.databaseError();
         }
         return GetFavoriteListResponseDto.success(resultSets);
@@ -145,7 +142,6 @@ public class BoardServiceImplements implements BoardService {
 
         GetBoardResultSet resultSet = null;
         List<ImageEntity> imageEntities = new ArrayList<>();
-        System.out.println("************getBoard service********");
 
         try {
 
@@ -156,7 +152,6 @@ public class BoardServiceImplements implements BoardService {
             imageEntities = imageRepository.findByBoardNumber(boardNumber);
 
         } catch (Exception exception) {
-            System.out.println("*******************error***********");
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }

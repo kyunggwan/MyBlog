@@ -44,7 +44,6 @@ public class BoardController {
     public ResponseEntity<? super GetFavoriteListResponseDto> getFavoriteList(
             @PathVariable("boardNumber") Integer boardNumber) {
         ResponseEntity<? super GetFavoriteListResponseDto> response = boardService.getFavoriteList(boardNumber);
-        System.out.println("***************favorite-list controller********************");
         return response;
     }
 
