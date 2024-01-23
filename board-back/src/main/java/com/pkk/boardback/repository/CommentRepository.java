@@ -14,7 +14,7 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Integer>
     @Query(value = "SELECT " +
             "u.nickname AS nickname, " +
             "u.profile_image AS profileImage, " +
-            "c.write_date AS writeDatetime, " +
+            "c.write_datetime AS writeDatetime, " +
             "c.content AS content " +
             "FROM comment AS c " +
             "INNER JOIN user AS u " +

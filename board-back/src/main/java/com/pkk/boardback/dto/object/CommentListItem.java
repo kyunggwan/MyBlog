@@ -23,7 +23,7 @@ public class CommentListItem {
 
     public CommentListItem(GetCommentListResultSet resultSets) {
         this.nickname = resultSets.getNickname();
-        this.profileImage = resultSets.getProfileimage();
+        this.profileImage = resultSets.getProfileImage();
         this.writeDatetime = resultSets.getWriteDatetime();
         this.content = resultSets.getContent();
     }

@@ -16,16 +16,16 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
     // 일반적인 쿼리메소드를 쓸 수 없음
     // 네이티브 쿼리(sql작성), JPQL과 SQL이 있는데 SQL사용
     @Query(value = "SELECT " +
-            "b.board_number AS board_number, " +
+            "b.board_number AS boardNumber, " +
             "b.title AS title," +
             "b.content AS content, " +
-            "b.write_datetime AS write_datetime, " +
-            "b.writer_email AS writer_email, " +
-            "u.nickname AS writer_nickname, " +
-            "u.profile_image AS profile_image " +
+            "b.write_datetime AS writeDatetime, " +
+            "b.writer_email AS writerEmail, " +
+            "u.nickname AS writerNickname, " +
+            "u.profile_image AS writerProfileImage " +
             "FROM board AS b " +
             "INNER JOIN user AS u " +
             "ON b.writer_email = u.email " +
-            "WHERE board_number = ?1 ", nativeQuery = true)
+            "WHERE board_Number = ?1 ", nativeQuery = true)
     GetBoardResultSet getBoard(Integer boardNumber);
 }
