@@ -12,6 +12,7 @@ import {
   GetCommentListResponseDto,
   PutFavoriteResponseDto,
   PostCommentResponseDto,
+  DeleteBoardResponseDto,
 } from "./response/board";
 
 const DOMAIN = "http://localhost:4000";
@@ -67,14 +68,13 @@ const GET_FAVORITE_LIST_URL = (boardNumber: number | string) =>
   `${API_DOMAIN}/board/${boardNumber}/favorite-list`;
 const GET_COMMENT_LIST_URL = (boardNumber: number | string) =>
   `${API_DOMAIN}/board/${boardNumber}/comment-list`;
-
 const POST_BOARD_URL = () => `${API_DOMAIN}/board`;
-
 const POST_COMMENT_URL = (boardNumber: number | string) =>
   `${API_DOMAIN}/board/${boardNumber}/comment`;
-
 const PUT_FAVORITE_URL = (boardNumber: number | string) =>
   `${API_DOMAIN}/board/${boardNumber}/favorite`;
+const DELETE_BOARD_URL = (boardNumber: number | string) =>
+  `${API_DOMAIN}/board/${boardNumber}`;
 
 export const getBoardRequest = async (boardNumber: number | string) => {
   const result = await axios
@@ -195,6 +195,24 @@ export const putFavoriteRequest = async (
       return responseBody;
     });
   return result;
+};
+
+export const deleteBoardRequest = async (
+  boardNumber: number | string,
+  accessToken: string
+) => {
+  const result = await axios
+    .delete(DELETE_BOARD_URL(boardNumber), authorization(accessToken))
+    .then((response) => {
+      const responseBody: DeleteBoardResponseDto = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      if (!error.response) return null;
+      const responseBody: ResponseDto = error.response.data;
+      return responseBody;
+    });
+    return result;
 };
 
 const GET_SIGN_IN_USER_URL = () => `${API_DOMAIN}/user`;
