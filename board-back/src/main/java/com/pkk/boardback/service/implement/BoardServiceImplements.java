@@ -6,9 +6,11 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Scalar.String;
 import com.pkk.boardback.dto.request.board.PostBoardRequestDto;
 import com.pkk.boardback.dto.request.board.PostCommentRequestDto;
 import com.pkk.boardback.dto.response.ResponseDto;
+import com.pkk.boardback.dto.response.board.DeleteBoardResponseDto;
 import com.pkk.boardback.dto.response.board.GetBoardResponseDto;
 import com.pkk.boardback.dto.response.board.GetFavoriteListResponseDto;
 import com.pkk.boardback.dto.response.board.IncreaseViewCountResponseDto;
@@ -206,6 +208,38 @@ public class BoardServiceImplements implements BoardService {
             return ResponseDto.databaseError();
         }
         return IncreaseViewCountResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super DeleteBoardResponseDto> deleteBoard(Integer boardNumber, String email) {
+
+        try {
+
+            boolean existedUser = userRepository.existsByEmail(email);
+            if (!existedUser)
+                return DeleteBoardResponseDto.noExistUser();
+
+            BoardEntity boardEntity = boardRepository.findByBoardNumber((boardNumber));
+            if (boardEntity == null)
+                return DeleteBoardResponseDto.noExistBoard();
+
+            String WriterEmail = boardEntity.getWriterEmail();
+            boolean isWriter = WriterEmail.equals(email);
+            if (!isWriter)
+                return DeleteBoardResponseDto.noPermission();
+
+            imageRepository.deleteByBoardNumber(boardNumber);
+            commentRepository.deleteByBoardNumber(boardNumber);
+            favoriteRepository.deleteByBoardNumber(boardNumber);
+
+            boardRepository.delete(boardEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return DeleteBoardResponseDto.success();
     }
 
 }
