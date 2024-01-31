@@ -2,6 +2,8 @@ package com.pkk.boardback.repository;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -22,4 +24,7 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Integer>
             "WHERE c.board_number = ?1 " +
             "ORDER BY writeDatetime DESC", nativeQuery = true)
     List<GetCommentListResultSet> getCommentList(Integer boardNumber);
+
+    @Transactional
+    void deleteByBoardNumber(Integer boardNumber);
 }
