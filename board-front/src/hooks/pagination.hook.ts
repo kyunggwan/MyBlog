@@ -77,3 +77,5 @@ const usePagination = <T>(countPerPage: number) => {
     setTotalList,
   };
 };
+
+export default usePagination;

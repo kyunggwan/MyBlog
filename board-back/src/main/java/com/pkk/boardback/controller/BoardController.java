@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pkk.boardback.dto.request.board.PostBoardRequestDto;
+import com.pkk.boardback.dto.response.board.DeleteBoardResponseDto;
 import com.pkk.boardback.dto.response.board.GetBoardResponseDto;
 import com.pkk.boardback.dto.response.board.GetCommentListResponseDto;
 import com.pkk.boardback.dto.response.board.PostBoardResponseDto;
@@ -87,11 +88,11 @@ public class BoardController {
         return response;
     }
 
-    // @DeleteMapping("/{boardNumber}")
-    // public ResponseEntity<? super DeleteBoardResponseDto> deleteBoard(
-    //         @PathVariable("boardNumber") Integer boardNumber,
-    //         @AuthenticationPrincipal String email) {
-    //     ResponseEntity<? super DeleteBoardResponseDto> response = boardService.deleteBoard(boardNumber, email);
-    //     return response;
-    // }
+    @DeleteMapping("/{boardNumber}")
+    public ResponseEntity<? super DeleteBoardResponseDto> deleteBoard(
+            @PathVariable("boardNumber") Integer boardNumber,
+            @AuthenticationPrincipal String email) {
+        ResponseEntity<? super DeleteBoardResponseDto> response = boardService.deleteBoard(boardNumber, email);
+        return response;
+    }
 }
