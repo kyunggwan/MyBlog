@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Scalar.String;
 import com.pkk.boardback.dto.request.board.PostBoardRequestDto;
 import com.pkk.boardback.dto.request.board.PostCommentRequestDto;
 import com.pkk.boardback.dto.response.ResponseDto;
