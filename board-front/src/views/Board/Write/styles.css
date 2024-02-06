@@ -1,5 +1,5 @@
 #board-write-wrapper {
-    boarder-top: 1px solid rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
 
     display: flex;
     justify-content: center;
@@ -22,7 +22,7 @@
     gap: 40px;
 }
 
-.board-wirte-title-box {
+.board-write-title-box {
     width: 100%;
 
 }
