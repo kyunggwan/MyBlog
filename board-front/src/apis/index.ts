@@ -71,6 +71,8 @@ const GET_COMMENT_LIST_URL = (boardNumber: number | string) =>
 const POST_BOARD_URL = () => `${API_DOMAIN}/board`;
 const POST_COMMENT_URL = (boardNumber: number | string) =>
   `${API_DOMAIN}/board/${boardNumber}/comment`;
+const PATCH_BOARD_URL = (boardNumber: number | string) =>
+  `${API_DOMAIN}/board/${boardNumber}`;
 const PUT_FAVORITE_URL = (boardNumber: number | string) =>
   `${API_DOMAIN}/board/${boardNumber}/favorite`;
 const DELETE_BOARD_URL = (boardNumber: number | string) =>
@@ -197,6 +199,10 @@ export const putFavoriteRequest = async (
   return result;
 };
 
+export const patchBoardRequest = async (boardNumber: string | number, requestBody) => {
+
+}
+
 export const deleteBoardRequest = async (
   boardNumber: number | string,
   accessToken: string
@@ -212,7 +218,7 @@ export const deleteBoardRequest = async (
       const responseBody: ResponseDto = error.response.data;
       return responseBody;
     });
-    return result;
+  return result;
 };
 
 const GET_SIGN_IN_USER_URL = () => `${API_DOMAIN}/user`;
