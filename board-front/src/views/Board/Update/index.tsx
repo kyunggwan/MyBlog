@@ -7,6 +7,7 @@ import { useCookies } from "react-cookie";
 import { getBoardRequest } from "apis";
 import { GetBoardResponseDto } from "apis/response/board";
 import { ResponseDto } from "apis/response";
+import { convertUrlsToFile } from "utils";
 
 //              component: 게시물 수정 화면 컴포넌트               //
 export default function BoardWrite() {
@@ -47,7 +48,23 @@ export default function BoardWrite() {
       return;
     }
 
-    const { title, content, boardImageList }
+    const { title, content, boardImageList, writerEmail } =
+      responseBody as GetBoardResponseDto;
+    setTitle(title);
+    setContent(content);
+    setImageUrls(boardImageList);
+    convertUrlsToFile(boardImageList).then((boardImageFileList) =>
+      setBoardImgFileList(boardImageFileList)
+    );
+
+    if (!loginUser || loginUser?.email !== writerEmail) {
+      navigator(MAIN_PATH());
+      return;
+    }
+
+    if (!contentRef.current) return;
+    contentRef.current.style.height = "auto";
+    contentRef.current.style.height = `${contentRef.current.scrollHeight}px`;
   };
 
   //        event handler: 제목 변경 이벤트 처리        //
@@ -117,11 +134,14 @@ export default function BoardWrite() {
   useEffect(() => {
     const accessToken = cookies.accessToken;
     if (!accessToken) {
-      navigate(MAIN_PATH());
+      navigator(MAIN_PATH());
       return;
     }
     if (!loginUser) return;
-    getBoardRequest(boardNumber).then(getBoardResponse);
+    const formattedBoardNumber: string | number = boardNumber as
+      | string
+      | number;
+    getBoardRequest(formattedBoardNumber).then(getBoardResponse);
   }, [boardNumber]);
 
   //        render: 게시물 수정 화면 컴포넌트 렌더링        //
