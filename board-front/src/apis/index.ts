@@ -13,6 +13,7 @@ import {
   PutFavoriteResponseDto,
   PostCommentResponseDto,
   DeleteBoardResponseDto,
+  PatchBoardResponseDto,
 } from "./response/board";
 
 const DOMAIN = "http://localhost:4000";
@@ -199,9 +200,28 @@ export const putFavoriteRequest = async (
   return result;
 };
 
-export const patchBoardRequest = async (boardNumber: string | number, requestBody) => {
-
-}
+export const patchBoardRequest = async (
+  boardNumber: string | number,
+  requestBody: PostBoardRequestDto,
+  accessToken: string
+) => {
+  const result = await axios
+    .patch(
+      PATCH_BOARD_URL(boardNumber),
+      requestBody,
+      authorization(accessToken)
+    )
+    .then((response) => {
+      const responseBody: PatchBoardResponseDto = response.data;
+      return responseBody;
+    })
+    .catch((error) => {
+      if (!error.response) return null;
+      const responseBody: ResponseDto = error.response.data;
+      return responseBody;
+    });
+  return result;
+};
 
 export const deleteBoardRequest = async (
   boardNumber: number | string,
