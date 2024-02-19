@@ -27,6 +27,7 @@ import com.pkk.boardback.dto.response.board.IncreaseViewCountResponseDto;
 import com.pkk.boardback.dto.response.board.PostCommentResponseDto;
 import com.pkk.boardback.dto.response.board.PatchBoardResponseDto;
 import com.pkk.boardback.dto.response.board.GetLatestBoardListResponseDto;
+import com.pkk.boardback.dto.response.board.GetTop3BoardListResponseDto;
 import com.pkk.boardback.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -70,6 +71,12 @@ public class BoardController {
     @GetMapping("/latest-list")
     public ResponseEntity<? super GetLatestBoardListResponseDto> getLatestBoardList() {
         ResponseEntity<? super GetLatestBoardListResponseDto> response = boardService.getLatestBoardList();
+        return response;
+    }
+
+    @GetMapping("/top-3")
+    public ResponseEntity<? super GetTop3BoardListResponseDto> getTop3BoardList() {
+        ResponseEntity<? super GetTop3BoardListResponseDto> response = boardService.getTop3BoardList();
         return response;
     }
 
