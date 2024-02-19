@@ -20,10 +20,11 @@ public class BoardListViewEntity {
 
     private String title;
     private String content;
-    private String titleImage;
-    private int viewCount;
+    private String boardTitleImage;
     private int favoriteCount;
-    private String writeDateTime;
+    private int commentCount;
+    private int viewCount;
+    private String writeDatetime;
     private String writerEmail;
     private String writerNickname;
     private String writerProfileImage;

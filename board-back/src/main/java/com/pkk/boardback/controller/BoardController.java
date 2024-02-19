@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pkk.boardback.dto.request.board.PatchBoardRequestDto;
 import com.pkk.boardback.dto.request.board.PostBoardRequestDto;
+import com.pkk.boardback.dto.request.board.PostCommentRequestDto;
 import com.pkk.boardback.dto.response.board.DeleteBoardResponseDto;
 import com.pkk.boardback.dto.response.board.GetBoardResponseDto;
 import com.pkk.boardback.dto.response.board.GetCommentListResponseDto;
@@ -25,7 +26,7 @@ import com.pkk.boardback.dto.response.board.GetFavoriteListResponseDto;
 import com.pkk.boardback.dto.response.board.IncreaseViewCountResponseDto;
 import com.pkk.boardback.dto.response.board.PostCommentResponseDto;
 import com.pkk.boardback.dto.response.board.PatchBoardResponseDto;
-import com.pkk.boardback.dto.request.board.PostCommentRequestDto;
+import com.pkk.boardback.dto.response.board.GetLatestBoardListResponseDto;
 import com.pkk.boardback.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -63,6 +64,12 @@ public class BoardController {
     public ResponseEntity<? super IncreaseViewCountResponseDto> increaseViewCount(
             @PathVariable("boardNumber") Integer boardNumber) {
         ResponseEntity<? super IncreaseViewCountResponseDto> response = boardService.increaseViewCount(boardNumber);
+        return response;
+    }
+
+    @GetMapping("/latest-list")
+    public ResponseEntity<? super GetLatestBoardListResponseDto> getLatestBoardList() {
+        ResponseEntity<? super GetLatestBoardListResponseDto> response = boardService.getLatestBoardList();
         return response;
     }
 
