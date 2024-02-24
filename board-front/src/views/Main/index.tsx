@@ -3,6 +3,8 @@ import "./styles.css";
 import Top3Item from "components/Top3Item";
 import { BoardListItem } from "types/interface";
 import top3BoardListMock from "mocks/top-3-list.mocks";
+import BoardItem from "components/BoardItem";
+import latestBoardListMock from "mocks/latest-board-list.mocks";
 
 //        component: 메인 화면 컴포넌트        //
 export default function Main() {
@@ -18,7 +20,7 @@ export default function Main() {
     return (
       <div id="main-top-wrapper">
         <div className="main-top-container">
-          <div className="main-top-intro">
+          <div className="main-top-title">
             {"Gwani board에서 \n 다양한 이야기를 나눠보세요"}
           </div>
           <div className="main-top-contents-box">
@@ -33,10 +35,52 @@ export default function Main() {
       </div>
     );
   };
-  //        component: 메인 화면 하단 컴포넌트        //
 
+  //        component: 메인 화면 하단 컴포넌트        //
   const MainBottom = () => {
-    return <div></div>;
+    //        state: 최신 게시물 리스트 상태        //
+    const [currentBoardList, setCurrentBoardList] = useState<BoardListItem[]>(
+      []
+    );
+    //        state: 인기 검색어 리스트 상태        //
+    const [popularWordList, setPopularWordList] = useState<string[]>([]);
+
+    //        effect: 첫 마운트 시 실행될 함수        //
+    useEffect(() => {
+      setCurrentBoardList(latestBoardListMock);
+      setPopularWordList(["인기", "검색어", "리스트", "테스트", "단어 입력"]);
+    }, []);
+    return (
+      <div id="main-bottom-wrapper">
+        <div className="main-bottom-container">
+          <div className="main-bottom-title">{"최신 게시물"}</div>
+          <div className="main-bottom-contents-box">
+            <div className="main-bottom-latest-contetns">
+              {currentBoardList.map((boardListItem) => (
+                <BoardItem boardListItem={boardListItem} />
+              ))}
+            </div>
+            <div className="main-bottom-popular-box">
+              <div className="main-bottom-popular-card">
+                <div className="main-bottom-popular-card-box">
+                  <div className="main-bottom-popular-card-title">
+                    {"인기 검색어"}
+                  </div>
+                  <div className="main-bottom-popular-card-contents">
+                    {popularWordList.map((word) => (
+                      <div className="word-badge">{word}</div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="main-bottom-pagination-box">
+            {/* <Pagination /> */}
+          </div>
+        </div>
+      </div>
+    );
   };
   //        render: 메인 화면 컴포넌트 렌더링        //
   return (
