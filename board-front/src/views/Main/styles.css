@@ -47,7 +47,7 @@
 .main-top-contents {
   display: flex;
   justify-content: space-between;
-  gap: 24pxk;
+  gap: 24px;
 }
 
 #main-bottom-wrapper {
