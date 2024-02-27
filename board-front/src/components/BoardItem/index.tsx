@@ -3,6 +3,7 @@ import "./styles.css";
 import { BoardListItem } from "types/interface";
 import { useNavigate } from "react-router-dom";
 import DefaultProfileImage from "assets/image/default-profile-image.png";
+import { BOARD_DETAIL_PATH, BOARD_PATH } from "constant";
 
 interface Props {
   boardListItem: BoardListItem;
@@ -24,11 +25,11 @@ export default function BoardItem({ boardListItem }: Props) {
   } = boardListItem;
 
   //        function: 네비게이트 함수       //
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   //        event handler: 게시물 아이템 클릭 이벤트 처리 함수        //
   const onClickHandler = () => {
-    // navigate(boardNumber);
+    navigate(BOARD_PATH() + "/" + BOARD_DETAIL_PATH(boardNumber));
   };
 
   //        render: BoardListItem 컴포넌트 렌더링         //
@@ -41,8 +42,9 @@ export default function BoardItem({ boardListItem }: Props) {
             <div
               className="board-list-item-profile-image"
               style={{
-                backgroundImage: `url(${writerProfileImage ? writerProfileImage : DefaultProfileImage
-                  })`,
+                backgroundImage: `url(${
+                  writerProfileImage ? writerProfileImage : DefaultProfileImage
+                })`,
               }}
             ></div>
           </div>
