@@ -5,15 +5,31 @@ import { BoardListItem } from "types/interface";
 import top3BoardListMock from "mocks/top-3-list.mocks";
 import BoardItem from "components/BoardItem";
 import latestBoardListMock from "mocks/latest-board-list.mocks";
+import { getTop3BoardListRequest } from "apis";
+import { GetTop3BoardListResponseDto } from "apis/response/board";
+import { ResponseDto } from "apis/response";
 
 //        component: 메인 화면 컴포넌트        //
 export default function Main() {
   //        state: 주간 top3 게시물 리스트 상태        //
-  const [top3List, setTop3List] = useState<BoardListItem[]>([]);
+  const [top3BoardList, setTop3BoardList] = useState<BoardListItem[]>([]);
 
+  //        function: get top 3 board List response 처리 함수        //
+  const getTop3BoardListResponse = (
+    responseBody: GetTop3BoardListResponseDto | ResponseDto | null
+  ) => {
+    if (!responseBody) return;
+    const { code } = responseBody;
+    if (code === "DBE") alert("데이터베이스 오류입니다.");
+    if (code !== "SU") return;
+
+    const { top3List } = responseBody as GetTop3BoardListResponseDto;
+    setTop3BoardList(top3List);
+  };
   //        effect: 첫 마운트 시 실행될 함수        //
   useEffect(() => {
-    setTop3List(top3BoardListMock);
+    // getTop3BoardListRequest().then(getTop3BoardListResponse);
+    // setTop3List(top3BoardListMock);
   }, []);
   //        component: 메인 화면 상단 컴포넌트        //
   const MainTop = () => {
@@ -26,8 +42,8 @@ export default function Main() {
           <div className="main-top-contents-box">
             <div className="main-top-contents-title">{"주간 TOP 3 게시글"}</div>
             <div className="main-top-contents">
-              {top3List.map((top3ListItem) => (
-                <Top3Item top3ListItem={top3ListItem} />
+              {top3BoardList.map((top3BoardListItem) => (
+                <Top3Item top3ListItem={top3BoardListItem} />
               ))}
             </div>
           </div>
@@ -62,7 +78,7 @@ export default function Main() {
             </div>
             <div className="main-bottom-popular-box">
               <div className="main-bottom-popular-card">
-                <div className="main-bottom-popular-card-box">
+                <div className="main-bottom-popular-card-container">
                   <div className="main-bottom-popular-card-title">
                     {"인기 검색어"}
                   </div>
