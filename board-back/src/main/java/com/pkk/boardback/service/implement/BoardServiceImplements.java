@@ -18,6 +18,7 @@ import com.pkk.boardback.dto.response.board.DeleteBoardResponseDto;
 import com.pkk.boardback.dto.response.board.GetBoardResponseDto;
 import com.pkk.boardback.dto.response.board.GetFavoriteListResponseDto;
 import com.pkk.boardback.dto.response.board.GetLatestBoardListResponseDto;
+import com.pkk.boardback.dto.response.board.GetSearchBoardListResponseDto;
 import com.pkk.boardback.dto.response.board.GetTop3BoardListResponseDto;
 import com.pkk.boardback.dto.response.board.IncreaseViewCountResponseDto;
 import com.pkk.boardback.dto.response.board.PatchBoardResponseDto;
@@ -30,11 +31,13 @@ import com.pkk.boardback.entity.BoardListViewEntity;
 import com.pkk.boardback.entity.CommentEntity;
 import com.pkk.boardback.entity.FavoriteEntity;
 import com.pkk.boardback.entity.ImageEntity;
+import com.pkk.boardback.entity.SearchLogEntity;
 import com.pkk.boardback.repository.BoardListViewRepository;
 import com.pkk.boardback.repository.BoardRepository;
 import com.pkk.boardback.repository.CommentRepository;
 import com.pkk.boardback.repository.FavoriteRepository;
 import com.pkk.boardback.repository.ImageRepository;
+import com.pkk.boardback.repository.SearchLogRepository;
 import com.pkk.boardback.repository.UserRepository;
 import com.pkk.boardback.repository.resultSet.GetBoardResultSet;
 import com.pkk.boardback.repository.resultSet.GetCommentListResultSet;
@@ -52,6 +55,7 @@ public class BoardServiceImplements implements BoardService {
     private final ImageRepository imageRepository;
     private final CommentRepository commentRepository;
     private final FavoriteRepository favoriteRepository;
+    private final SearchLogRepository searchLogRepository;
     private final BoardListViewRepository boardListViewRepository;
 
     @Override
@@ -128,6 +132,32 @@ public class BoardServiceImplements implements BoardService {
             return ResponseDto.databaseError();
         }
         return GetTop3BoardListResponseDto.success(boardListViewEntities);
+    }
+
+    @Override
+    public ResponseEntity<? super GetSearchBoardListResponseDto> getSearchBoardList(String searchWord,
+            String preSearchWord) {
+
+        List<BoardListViewEntity> boardListViewEntities = new ArrayList<>();
+
+        try {
+            boardListViewEntities = boardListViewRepository
+                    .findByTitleContainsOrContentContainsOrderByWriteDatetimeDesc(searchWord, searchWord);
+
+            SearchLogEntity searchLogEntity = new SearchLogEntity(searchWord, preSearchWord, false);
+            searchLogRepository.save(searchLogEntity);
+
+            boolean relation = preSearchWord != null;
+            if (relation) {
+                searchLogEntity = new SearchLogEntity(preSearchWord, searchWord, true);
+                searchLogRepository.save(searchLogEntity);
+            }
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return GetSearchBoardListResponseDto.success(boardListViewEntities);
     }
 
     @Override

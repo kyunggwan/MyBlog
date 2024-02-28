@@ -28,6 +28,8 @@ import com.pkk.boardback.dto.response.board.PostCommentResponseDto;
 import com.pkk.boardback.dto.response.board.PatchBoardResponseDto;
 import com.pkk.boardback.dto.response.board.GetLatestBoardListResponseDto;
 import com.pkk.boardback.dto.response.board.GetTop3BoardListResponseDto;
+import com.pkk.boardback.dto.response.board.GetSearchBoardListResponseDto;
+
 import com.pkk.boardback.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -77,6 +79,15 @@ public class BoardController {
     @GetMapping("/top-3")
     public ResponseEntity<? super GetTop3BoardListResponseDto> getTop3BoardList() {
         ResponseEntity<? super GetTop3BoardListResponseDto> response = boardService.getTop3BoardList();
+        return response;
+    }
+
+    @GetMapping(value = { "/search-list/{searchWord}", "/search-list/{searchWord}/{preSearchWord}" }) // 이 2개의 api 모두 실행
+    public ResponseEntity<? super GetSearchBoardListResponseDto> getSearchBoardList(
+            @PathVariable("searchWord") String searchWord,
+            @PathVariable(value = "preSearchWord", required = false) String preSearchWord) {
+        ResponseEntity<? super GetSearchBoardListResponseDto> response = boardService.getSearchBoardList(searchWord,
+                preSearchWord);
         return response;
     }
 

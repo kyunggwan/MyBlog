@@ -20,6 +20,6 @@ export type {
   GetCommentListResponseDto,
   GetFavoriteListResponseDto,
   GetTop3BoardListResponseDto,
-  GetLatestBoardListResponseDto,
   IncreaseViewCountResponseDto,
+  GetLatestBoardListResponseDto,
 };

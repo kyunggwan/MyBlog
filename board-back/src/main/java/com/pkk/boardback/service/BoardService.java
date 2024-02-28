@@ -16,6 +16,7 @@ import com.pkk.boardback.dto.response.board.PostCommentResponseDto;
 import com.pkk.boardback.dto.response.board.GetCommentListResponseDto;
 import com.pkk.boardback.dto.response.board.PatchBoardResponseDto;
 import com.pkk.boardback.dto.response.board.GetTop3BoardListResponseDto;
+import com.pkk.boardback.dto.response.board.GetSearchBoardListResponseDto;
 
 public interface BoardService {
         ResponseEntity<? super GetBoardResponseDto> getBoard(Integer boardNumber);
@@ -27,6 +28,9 @@ public interface BoardService {
         ResponseEntity<? super GetLatestBoardListResponseDto> getLatestBoardList();
 
         ResponseEntity<? super GetTop3BoardListResponseDto> getTop3BoardList();
+
+        ResponseEntity<? super GetSearchBoardListResponseDto> getSearchBoardList(String searchWord,
+                        String preSearchWord);
 
         ResponseEntity<? super PostBoardResponseDto> postBoard(PostBoardRequestDto dto, String email);
 

@@ -21,7 +21,13 @@ public class SearchLogEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int sequence;
     private String searchWord;
-    private String relationBoard;
+    private String relationWord;
     private boolean relation;
+
+    public SearchLogEntity(String searchWord, String relationWord, boolean relation) {
+        this.searchWord = searchWord;
+        this.relationWord = relationWord;
+        this.relation = relation;
+    }
 
 }

@@ -277,6 +277,7 @@ export const deleteBoardRequest = async (
 };
 
 const GET_POPULAR_LIST_URL = () => `${API_DOMAIN}/search/popular-list`;
+
 export const getPopularListRequest = async () => {
   const result = await axios
     .get(GET_POPULAR_LIST_URL())
