@@ -111,6 +111,7 @@ export const getLatestBoardListRequest = async () => {
       const responseBody: ResponseDto = error.response.data;
       return responseBody;
     });
+  return result;
 };
 
 export const getTop3BoardListRequest = async () => {
