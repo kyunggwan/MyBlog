@@ -28,7 +28,7 @@ public class FileServiceImplements implements FileService {
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
         String uuid = UUID.randomUUID().toString();
         String saveFileName = uuid + extension;
-        String savePath = filePath + saveFileName;
+        String savePath = filePath + File.separator + saveFileName;
 
         try {
             file.transferTo(new File(savePath));

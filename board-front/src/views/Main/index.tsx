@@ -32,7 +32,7 @@ export default function Main() {
   };
   //        effect: 첫 마운트 시 실행될 함수        //
   useEffect(() => {
-    // getTop3BoardListRequest().then(getTop3BoardListResponse);
+    getTop3BoardListRequest().then(getTop3BoardListResponse);
     setTop3BoardList(top3BoardListMock);
   }, []);
   //        component: 메인 화면 상단 컴포넌트        //

@@ -18,7 +18,7 @@ public class BoardListItem {
     private int boardNumber;
     private String title;
     private String content;
-    private String boardTitleImage;
+    private String titleImage;
     private int favoriteCount;
     private int commentCount;
     private int viewCount;
@@ -30,7 +30,7 @@ public class BoardListItem {
         this.boardNumber = boardListViewEntity.getBoardNumber();
         this.title = boardListViewEntity.getTitle();
         this.content = boardListViewEntity.getContent();
-        this.boardTitleImage = boardListViewEntity.getBoardTitleImage();
+        this.titleImage = boardListViewEntity.getTitleImage();
         this.favoriteCount = boardListViewEntity.getFavoriteCount();
         this.commentCount = boardListViewEntity.getCommentCount();
         this.viewCount = boardListViewEntity.getViewCount();

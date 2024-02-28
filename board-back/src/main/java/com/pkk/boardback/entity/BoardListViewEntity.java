@@ -20,7 +20,7 @@ public class BoardListViewEntity {
 
     private String title;
     private String content;
-    private String boardTitleImage;
+    private String titleImage;
     private int favoriteCount;
     private int commentCount;
     private int viewCount;
