@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import "./styles.css";
 import { User } from "types/interface";
 import defaultProfileImage from "../../assets/image/default-profile-image.png";
@@ -20,9 +20,38 @@ export default function UserPage() {
     const [nickname, setNickname] = useState<string>("");
     //        state: 변경 닉네임 상태        //
     const [changeNickname, setChangeNickname] = useState<string>("");
-
-    //        state: 닉네임 변경 여부 상태        //
+    //        state: 프로필 이미지 상태        //
     const [profileImage, setProfileImage] = useState<string | null>(null);
+
+    //        event handler: 프로필 박스 클릭 이벤트        //
+    const onProfileBoxClickHandler = () => {
+      if (!isMyPage) return;
+      if (!imageInputRef.current) return;
+      imageInputRef.current.click();
+    };
+
+    //        event handler: 닉네임 수정 버튼 클릭 이벤트        //
+    const onNicknameEditButtonClickHandler = () => {
+      setChangeNickname(nickname);
+      setNicknameChange(!isNicknameChange);
+    };
+
+    //        event handler: 프로필 이미지 변경 이벤트 처리        //
+    const onProfileImageChangeHandler = (
+      event: ChangeEvent<HTMLInputElement>
+    ) => {
+      if (!event.target.files || !event.target.files?.length) return;
+
+      const file = event.target.files[0];
+      const data = new FormData();
+      data.append("file", file);
+    };
+
+    //        event handler: 닉네임 변경 이벤트 처리        //
+    const onNicknameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+      const { value } = event.target;
+      setChangeNickname(value);
+    };
 
     //        effect: email path variable 변경시 실행 할 함수        //
     useEffect(() => {
@@ -36,7 +65,10 @@ export default function UserPage() {
       <div id="user-top-wrapper">
         <div className="user-top-container">
           {isMyPage ? (
-            <div className="user-top-my-profile-image-box">
+            <div
+              className="user-top-my-profile-image-box"
+              onClick={onProfileBoxClickHandler}
+            >
               {profileImage !== null ? (
                 <div
                   className="user-top-profile-image"
@@ -55,6 +87,7 @@ export default function UserPage() {
                 type="file"
                 accept="image/*"
                 style={{ display: "none" }}
+                onChange={onProfileImageChangeHandler}
               />
             </div>
           ) : (
@@ -63,7 +96,6 @@ export default function UserPage() {
               style={{ backgroundImage: `url(${profileImage})` }}
             ></div>
           )}
-          <div className="user-top-profile-image-box"></div>
           <div className="user-top-info-box">
             <div className="user-top-info-nickname-box">
               {isMyPage ? (
@@ -72,14 +104,18 @@ export default function UserPage() {
                     <input
                       className="user-top-info-nickname-input"
                       type="text"
-                      size={changeNickname.length + 1}
+                      size={changeNickname.length + 2}
                       value={changeNickname}
+                      onChange={onNicknameChangeHandler}
                     />
                   ) : (
                     <div className="user-top-info-nickname">{nickname}</div>
                   )}
 
-                  <div className="icon-button">
+                  <div
+                    className="icon-button"
+                    onClick={onNicknameEditButtonClickHandler}
+                  >
                     <div className="icon edit-icon"></div>
                   </div>
                 </>
