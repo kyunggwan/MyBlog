@@ -1,5 +1,3 @@
-import GetSignInUserReseponseDto from './get-sign-in-user.response.dto';
+import GetSignInUserResponseDto from "./get-sign-in-user.response.dto";
 
-export type {
-    GetSignInUserReseponseDto
-}
+export type { GetSignInUserResponseDto };

@@ -2,7 +2,7 @@ import axios from "axios";
 import { SignInRequestDto, SignUpRequestDto } from "./requeset/auth";
 import { SignInResponseDto, SignUpResponseDto } from "./response/auth";
 import { ResponseDto } from "./response";
-import { GetSignInUserReseponseDto } from "./response/user";
+import { GetSignInUserResponseDto } from "./response/user";
 import { PostBoardRequestDto, PostCommentRequestDto } from "./requeset/board";
 import {
   PostBoardResponseDto,
@@ -345,7 +345,7 @@ export const getSignInUserRequest = async (accessToken: string) => {
   const result = await axios
     .get(GET_SIGN_IN_USER_URL(), authorization(accessToken))
     .then((response) => {
-      const responseBody: GetSignInUserReseponseDto = response.data;
+      const responseBody: GetSignInUserResponseDto = response.data;
       return responseBody;
     })
     .catch((error) => {
