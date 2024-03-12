@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useLoginUserStore } from "stores";
 import { getSignInUserRequest } from "apis";
-import { GetSignInUserReseponseDto } from "apis/response/user";
+import { GetSignInUserResponseDto } from "apis/response/user";
 import { ResponseDto } from "apis/response";
 import { User } from "types/interface";
 
@@ -26,14 +26,14 @@ function App() {
   const [cookies, setCookie] = useCookies();
 
   //        function: get sign in user reponse 처리 함수        //
-  const getSignInUserResponse = (responseBody: GetSignInUserReseponseDto | ResponseDto | null) => {
+  const getSignInUserResponse = (responseBody: GetSignInUserResponseDto | ResponseDto | null) => {
     if (!responseBody) return;
     const { code } = responseBody;
     if (code === 'AF' || code === 'NU' || code === 'DBE') {
       resetLoginUser();
       return;
     }
-    const loginUser: User = { ...responseBody as GetSignInUserReseponseDto };
+    const loginUser: User = { ...responseBody as GetSignInUserResponseDto };
     setLoginUser(loginUser);
   }
 
