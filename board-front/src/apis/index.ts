@@ -423,7 +423,7 @@ export const patchProfileImageRequest = async (
   accessToken: string
 ) => {
   const result = await axios
-    .patch(PATCH_NICKNAME_URL(), requestBody, authorization(accessToken))
+    .patch(PATCH_PROFILE_IMAGE_URL(), requestBody, authorization(accessToken))
     .then((response) => {
       const responseBody: PatchProfileImageResponseDto = response.data;
       return responseBody;
@@ -433,6 +433,7 @@ export const patchProfileImageRequest = async (
       const responseBody: ResponseDto = error.response.data;
       return responseBody;
     });
+    console.log(result);
   return result;
 };
 
