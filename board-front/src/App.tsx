@@ -29,13 +29,13 @@ function App() {
   const getSignInUserResponse = (responseBody: GetSignInUserResponseDto | ResponseDto | null) => {
     if (!responseBody) return;
     const { code } = responseBody;
-    if (code === 'AF' || code === 'NU' || code === 'DBE') {
+    if (code === "AF" || code === "NU" || code === "DBE") {
       resetLoginUser();
       return;
     }
     const loginUser: User = { ...responseBody as GetSignInUserResponseDto };
     setLoginUser(loginUser);
-  }
+  };
 
   //        effect: accessToken cookie 값이 변경될 떄마다 실행할 함수       //
   useEffect(() => {
